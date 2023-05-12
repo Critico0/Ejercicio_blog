@@ -44,10 +44,7 @@
             </thead>
             <tbody class="text-center">
               <% for (const article of articles) { %>
-              <tr
-                style="cursor: pointer"
-                onclick="document.location='/panel/articulos/<%=article.id%>'"
-              >
+              <tr style="cursor: pointer" onclick="document.location='/articulos/<%=article.id%>'">
                 <td><%= article.id %></td>
 
                 <td><%= article.title %></td>

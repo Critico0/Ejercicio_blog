@@ -5,22 +5,45 @@ const pagesController = require("./pagesController");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const articles = await Article.findAll({
-    include: "author",
-    where: {
-      authorId: req.user.id,
-    },
-    attributes: [
-      "id",
-      "title",
-      "imageURL",
-      "content",
-      [
-        sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
-        "createdAt",
-      ],
-    ],
-  });
+  let articles;
+
+  switch (req.user.role) {
+    case 3 || 4:
+      articles = await Article.findAll({
+        include: "author",
+        attributes: [
+          "id",
+          "title",
+          "imageURL",
+          "content",
+          [
+            sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
+            "createdAt",
+          ],
+        ],
+      });
+      break;
+
+    case 2:
+      articles = await Article.findAll({
+        include: "author",
+        where: {
+          authorId: req.user.id,
+        },
+        attributes: [
+          "id",
+          "title",
+          "imageURL",
+          "content",
+          [
+            sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
+            "createdAt",
+          ],
+        ],
+      });
+      break;
+  }
+
   const { textoBoton, ruta } = pagesController.buttonNavbar(req);
   res.render("admin", { articles, textoBoton, ruta });
 }
