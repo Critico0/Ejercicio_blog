@@ -14,7 +14,9 @@ async function store(req, res) {
 async function edit(req, res) {}
 
 // Update the specified resource in storage.
-async function update(req, res) {}
+async function update(req, res) {
+  //aca edito comentarios///
+}
 
 // Remove the specified resource from storage.
 async function destroy(req, res) {}

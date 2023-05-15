@@ -4,8 +4,8 @@ class Roles extends Model {
   static initModel(sequelize) {
     Roles.init(
       {
-        code: {
-          type: DataTypes.STRING(100),
+        rolcode: {
+          type: DataTypes.BIGINT,
         },
         rolname: {
           type: DataTypes.STRING(100),

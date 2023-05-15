@@ -68,11 +68,19 @@
                         Modificar
                       </a>
                     </div>
+                    <% if(article.authorId === user.id && user.role.rolcode < 400){ %>
                     <div class="ms-2">
                       <form method="POST" action="/panel/<%=article.id%>?_method=DELETE">
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                       </form>
                     </div>
+                    <% } %> <% if(user.role.rolcode >=400){ %>
+                    <div class="ms-2">
+                      <form method="POST" action="/panel/<%=article.id%>?_method=DELETE">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                      </form>
+                    </div>
+                    <% } %>
                   </div>
                 </td>
 

@@ -17,7 +17,7 @@ module.exports = async () => {
       rolname = "Admin";
     }
     roles.push({
-      code: rolcode,
+      rolcode: rolcode,
       rolname: rolname,
     });
   }

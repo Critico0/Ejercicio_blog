@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcryptjs");
-const { Author } = require("../models");
+const { Author, Role } = require("../models");
 
 function passportConfig() {
   passport.use(
@@ -41,8 +41,9 @@ function passportConfig() {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await Author.findByPk(id);
-      done(null, user); // Usuario queda disponible en req.user.
+      const user = await Author.findByPk(id, { include: "role" }).then((user) => {
+        done(null, user); // Usuario queda disponible en req.user.
+      });
     } catch (err) {
       done(err);
     }

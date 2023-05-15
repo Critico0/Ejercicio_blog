@@ -20,10 +20,10 @@ const Comment = require("./Comment");
 const Article = require("./Article");
 const Role = require("./Role");
 
+Role.initModel(sequelize);
 Author.initModel(sequelize);
 Comment.initModel(sequelize);
 Article.initModel(sequelize);
-Role.initModel(sequelize);
 
 Article.belongsTo(Author);
 Comment.belongsTo(Article);
@@ -32,6 +32,7 @@ Article.hasMany(Comment);
 Author.hasMany(Comment);
 Comment.belongsTo(Author);
 
+Author.belongsTo(Role);
 Role.hasMany(Author);
 
 /**

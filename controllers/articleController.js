@@ -1,4 +1,4 @@
-const { Article, Comment } = require("../models");
+const { Author, Article, Comment, Role } = require("../models");
 const sequelize = require("sequelize");
 const formidable = require("formidable");
 const pagesController = require("./pagesController");
@@ -7,43 +7,40 @@ const pagesController = require("./pagesController");
 async function index(req, res) {
   let articles;
 
-  switch (req.user.role) {
-    case 3 || 4:
-      articles = await Article.findAll({
-        include: "author",
-        attributes: [
-          "id",
-          "title",
-          "imageURL",
-          "content",
-          [
-            sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
-            "createdAt",
-          ],
+  if (req.user.role.rolcode >= 300) {
+    articles = await Article.findAll({
+      include: "author",
+      attributes: [
+        "id",
+        "title",
+        "imageURL",
+        "content",
+        [
+          sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
+          "createdAt",
         ],
-      });
-      break;
-
-    case 2:
-      articles = await Article.findAll({
-        include: "author",
-        where: {
-          authorId: req.user.id,
-        },
-        attributes: [
-          "id",
-          "title",
-          "imageURL",
-          "content",
-          [
-            sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
-            "createdAt",
-          ],
+        "authorId",
+      ],
+    });
+  } else {
+    articles = await Article.findAll({
+      where: {
+        authorId: req.user.id,
+      },
+      include: "author",
+      attributes: [
+        "id",
+        "title",
+        "imageURL",
+        "content",
+        [
+          sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
+          "createdAt",
         ],
-      });
-      break;
+        "authorId",
+      ],
+    });
   }
-
   const { textoBoton, ruta } = pagesController.buttonNavbar(req);
   res.render("admin", { articles, textoBoton, ruta });
 }
