@@ -94,8 +94,13 @@
                 </h5>
                 <% if (isLoggedIn && user.role.rolcode >= 300){ %>
                 <div class="d-flex justify-content-end">
-                  <a class="me-2">Edit </a>
-                  <a class="me-2">Delete </a>
+                  <a class="me-2" href="/panel/comment/editar/<%=comment.id %>">Edit </a>
+                  <form
+                    method="post"
+                    action="/panel/comment/delete/<%=comment.id %>?_method=DELETE"
+                  >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </div>
                 <% } %>
                 <hr />

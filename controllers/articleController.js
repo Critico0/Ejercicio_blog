@@ -125,7 +125,6 @@ async function update(req, res) {
         title: fields.title,
         content: fields.content,
         imageURL: files.image.newFilename,
-        authorId: req.user.id,
       },
       {
         where: { id: req.params.id },
